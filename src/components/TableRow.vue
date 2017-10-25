@@ -1,7 +1,8 @@
 <template>
     <tr>
         <table-cell
-            v-for="column in visibleColumns"
+            v-for="(column, index) in visibleColumns"
+            :key="column.index"
             :row="row"
             :column="column"
         ></table-cell>

@@ -122,3 +122,7 @@
 .table-component__th--sort-desc:after {
   content: '↓';
 }
+
+input{
+  width: 100%;
+}

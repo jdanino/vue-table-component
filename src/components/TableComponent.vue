@@ -1,5 +1,6 @@
 <template>
     <div class="table-component">
+        
         <div v-if="showFilter && filterableColumnExists" class="table-component__filter">
             <input
                     :class="fullFilterInputClass"
@@ -30,6 +31,14 @@
                     ></table-column-header>
                 </tr>
                 </thead>
+                
+                <!-- <table-filters></table-filters> -->
+                <thead>
+                    <tr>
+                        <slot name="filters"></slot>
+                    </tr>
+                </thead>
+
                 <tbody :class="fullTableBodyClass">
                 <table-row
                         v-for="row in displayedRows"
@@ -66,15 +75,20 @@
     import Pagination from './Pagination';
     import { classList } from '../helpers';
 
+    import TableFilters from './TableFilters';
+    import TableColumnFilter from './TableColumnFilter';
+
     export default {
         components: {
             TableColumnHeader,
             TableRow,
             Pagination,
+            TableFilters,
+            TableColumnFilter,
         },
 
         props: {
-            data: {default: () => [], type: [Array, Function]},
+            data: { default: () => [], type: [Array, Function] },
 
             showFilter: { default: true },
             showCaption: { default: true },
@@ -97,6 +111,7 @@
             columns: [],
             rows: [],
             filter: '',
+            filters: {},
             sort: {
                 fieldName: '',
                 order: '',
@@ -136,6 +151,7 @@
         },
 
         watch: {
+
             filter() {
                 if (!this.usesLocalData) {
                     this.mapDataToRows();
@@ -231,6 +247,22 @@
         },
 
         methods: {
+
+            setFilter(column, value) {
+                // this.$set(this.filters, column, value);
+                this.$set(this.filters, column, value);
+
+                console.log('Zet filter voor column ' + column + ' op ' + value);
+                console.log(this.filters);
+                
+                if (!this.usesLocalData) {
+                    console.log('oleeee');
+                    this.mapDataToRows();
+                }
+
+                this.saveState();
+            },
+
             async pageChange(page) {
                 this.pagination.currentPage = page;
 
@@ -259,10 +291,12 @@
             },
 
             async fetchServerData() {
+
                 const page = this.pagination && this.pagination.currentPage || 1;
 
                 const response = await this.data({
                     filter: this.filter,
+                    filters: this.filters,
                     sort: this.sort,
                     page: page,
                 });
@@ -277,13 +311,15 @@
             },
 
             changeSorting(column) {
-                if (this.sort.fieldName !== column.show) {
-                    this.sort.fieldName = column.show;
+                const currentlySortedBy = column.sortBy || column.show;
+
+                if (this.sort.fieldName !== currentlySortedBy) {
+                    this.sort.fieldName = currentlySortedBy;
                     this.sort.order = 'asc';
                 } else {
                     this.sort.order = (this.sort.order === 'asc' ? 'desc' : 'asc');
                 }
-
+                
                 if (!this.usesLocalData) {
                     this.mapDataToRows();
                 }
