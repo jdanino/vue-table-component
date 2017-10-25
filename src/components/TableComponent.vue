@@ -10,8 +10,9 @@
             </div>
 
             <div v-if="filters.length" class="clear-filters">
-                <i class="fa fa-trash"></i>
-                <a href @click.prevent="clearFilters">Clear filters</a>
+                <a href @click.prevent="clearFilters" class="btn btn-default">
+                    <slot name="clear-filter-link">Clear filters</slot>
+                </a>
             </div>
         </div>
 

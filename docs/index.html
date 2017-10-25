@@ -132,6 +132,8 @@
             <a href="https://github.com/spatie/vue-table-component">Vue-table-component</a>
         </h1>
 
+            
+
         <table-component
             :data="fetchData"
             sort-by="post_date"
@@ -139,6 +141,8 @@
             :show-filter="false"
             >
 
+            <!-- <template slot="clear-filter-link">Clear Filters</template> -->
+            
             <template slot="filters">
                 <table-column-filter column="id"></table-column-filter>
                 <table-column-filter column="post_date" type="date"></table-column-filter>

@@ -8385,9 +8385,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "metadata"
   }, [_c('p', [_vm._v("\n                Page " + _vm._s(_vm.pagination.currentPage) + " from " + _vm._s(_vm.pagination.totalPages) + " (" + _vm._s(_vm.metadata.totalRecords) + " records)\n            ")])]) : _vm._e(), _vm._v(" "), (_vm.filters.length) ? _c('div', {
     staticClass: "clear-filters"
-  }, [_c('i', {
-    staticClass: "fa fa-trash"
-  }), _vm._v(" "), _c('a', {
+  }, [_c('a', {
+    staticClass: "btn btn-default",
     attrs: {
       "href": ""
     },
@@ -8397,7 +8396,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.clearFilters($event)
       }
     }
-  }, [_vm._v("Clear filters")])]) : _vm._e()]), _vm._v(" "), (_vm.showFilter && _vm.filterableColumnExists) ? _c('div', {
+  }, [_vm._t("clear-filter-link", [_vm._v("Clear filters")])], 2)]) : _vm._e()]), _vm._v(" "), (_vm.showFilter && _vm.filterableColumnExists) ? _c('div', {
     staticClass: "table-component__filter"
   }, [_c('input', {
     directives: [{
