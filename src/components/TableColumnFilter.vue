@@ -3,6 +3,7 @@
         <select v-if="type == 'select'"
             @change="filter"
             v-model="value"
+            class="form-control"
         >
             <option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
         </select>
@@ -11,12 +12,14 @@
             type="date" 
             @change="filter"
             v-model="value"
+            class="form-control"
         >
 
         <input v-if="type == 'text'" 
             type="text" 
             @change="filter"
             v-model="value"
+            class="form-control"
         >
     </td>
 </template>

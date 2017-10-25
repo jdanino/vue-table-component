@@ -8482,6 +8482,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.value),
       expression: "value"
     }],
+    staticClass: "form-control",
     on: {
       "change": [function($event) {
         var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
@@ -8507,6 +8508,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.value),
       expression: "value"
     }],
+    staticClass: "form-control",
     attrs: {
       "type": "date"
     },
@@ -8527,6 +8529,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       value: (_vm.value),
       expression: "value"
     }],
+    staticClass: "form-control",
     attrs: {
       "type": "text"
     },
