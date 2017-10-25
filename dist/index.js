@@ -2439,6 +2439,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
         methods: {
+            reset: function reset() {
+                this.value = '';
+            },
             filter: function filter() {
                 this.$parent.setFilter(this.column, this.value);
             }
@@ -2623,7 +2626,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 columns: [],
                 rows: [],
                 filter: '',
-                filters: {},
+                filters: [],
                 sort: {
                     fieldName: '',
                     order: ''
@@ -2780,20 +2783,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         },
 
         methods: {
-            setFilter: function setFilter(column, value) {
-                // this.$set(this.filters, column, value);
-                this.$set(this.filters, column, value);
-
-                console.log('Zet filter voor column ' + column + ' op ' + value);
-                console.log(this.filters);
-
-                if (!this.usesLocalData) {
-                    console.log('oleeee');
-                    this.mapDataToRows();
-                }
-
-                this.saveState();
-            },
             pageChange: function () {
                 var _ref2 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee2(page) {
                     return _regenerator2.default.wrap(function _callee2$(_context2) {
@@ -2969,6 +2958,38 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
                 this.sort = previousState.sort;
                 this.filter = previousState.filter;
+
+                this.saveState();
+            },
+            setFilter: function setFilter(column, value) {
+
+                // this.$set(this.filters, column, value);
+                // this.$set(this.filters, column, value);
+                this.filters.push({ column: column, value: value });
+
+                if (!this.usesLocalData) {
+                    this.mapDataToRows();
+                }
+
+                this.saveState();
+            },
+            clearFilters: function clearFilters() {
+                var _this4 = this;
+
+                this.$slots.filters.map(function (filter) {
+                    if (filter.tag !== undefined) {
+                        var itemToRemove = _this4.filters.find(function (item) {
+                            return item['column'] == filter.componentInstance.column;
+                        });
+                        _this4.filters.splice(_this4.filters.indexOf(itemToRemove), 1);
+
+                        filter.componentInstance.reset();
+                    }
+                });
+
+                if (!this.usesLocalData) {
+                    this.mapDataToRows();
+                }
 
                 this.saveState();
             }
@@ -8356,7 +8377,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('div', {
     staticClass: "table-component"
-  }, [(_vm.showFilter && _vm.filterableColumnExists) ? _c('div', {
+  }, [_c('div', {
+    staticStyle: {
+      "display": "flex"
+    }
+  }, [_vm._m(0), _vm._v(" "), (_vm.filters.length) ? _c('div', {
+    staticClass: "clear-filters"
+  }, [_c('i', {
+    staticClass: "fa fa-trash"
+  }), _vm._v(" "), _c('a', {
+    attrs: {
+      "href": ""
+    },
+    on: {
+      "click": function($event) {
+        $event.preventDefault();
+        _vm.clearFilters($event)
+      }
+    }
+  }, [_vm._v("Clear filters")])]) : _vm._e()]), _vm._v(" "), (_vm.showFilter && _vm.filterableColumnExists) ? _c('div', {
     staticClass: "table-component__filter"
   }, [_c('input', {
     directives: [{
@@ -8433,7 +8472,13 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "pageChange": _vm.pageChange
     }
   }) : _vm._e()], 1)
-},staticRenderFns: []}
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('div', {
+    staticStyle: {
+      "flex": "1"
+    }
+  }, [_c('p', [_vm._v("xxx van xxx Items")])])
+}]}
 
 /***/ }),
 /* 235 */

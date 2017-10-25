@@ -14,7 +14,7 @@ new Vue({
 
     methods: {
         async fetchData({ page, filter, filters, sort }) {
-            
+            console.log(JSON.stringify(filters));
             const data = {
                 orderBy   : sort.fieldName,
                 sortOrder : sort.order,

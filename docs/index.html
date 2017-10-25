@@ -136,6 +136,7 @@
             :data="fetchData"
             sort-by="post_date"
             sort-order="desc"
+            :show-filter="false"
             >
 
             <template slot="filters">
@@ -150,6 +151,7 @@
                         {value: '5', label: 'Suzanne'},
                     ]"
                 ></table-column-filter>
+                <table-column-filter column="views" type=""></table-column-filter>
             </template>
 
             <template>
@@ -157,6 +159,7 @@
                 <table-column show="post_date.date" label="Date" sort-by="post_date"></table-column>
                 <table-column show="title" label="Title"></table-column>
                 <table-column show="user.name" label="Poster" sort-by="user_id"></table-column>
+                <table-column show="views" label="Views"></table-column>
             </template>
 
         </table-component>

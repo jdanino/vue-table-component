@@ -1,6 +1,17 @@
 <template>
     <div class="table-component">
         
+        <div style="display: flex">
+            <div style="flex: 1">
+            <p>xxx van xxx Items</p>
+            </div>
+
+            <div v-if="filters.length" class="clear-filters">
+                <i class="fa fa-trash"></i>
+                <a href @click.prevent="clearFilters">Clear filters</a>
+            </div>
+        </div>
+
         <div v-if="showFilter && filterableColumnExists" class="table-component__filter">
             <input
                     :class="fullFilterInputClass"
@@ -111,7 +122,7 @@
             columns: [],
             rows: [],
             filter: '',
-            filters: {},
+            filters: [],
             sort: {
                 fieldName: '',
                 order: '',
@@ -244,24 +255,10 @@
                     ? `vue-table-component.${this.cacheKey}`
                     : `vue-table-component.${window.location.host}${window.location.pathname}${this.cacheKey}`;
             },
+
         },
 
         methods: {
-
-            setFilter(column, value) {
-                // this.$set(this.filters, column, value);
-                this.$set(this.filters, column, value);
-
-                console.log('Zet filter voor column ' + column + ' op ' + value);
-                console.log(this.filters);
-                
-                if (!this.usesLocalData) {
-                    console.log('oleeee');
-                    this.mapDataToRows();
-                }
-
-                this.saveState();
-            },
 
             async pageChange(page) {
                 this.pagination.currentPage = page;
@@ -344,6 +341,37 @@
 
                 this.sort = previousState.sort;
                 this.filter = previousState.filter;
+
+                this.saveState();
+            },
+
+            setFilter(column, value) {
+                
+                // this.$set(this.filters, column, value);
+                // this.$set(this.filters, column, value);
+                this.filters.push({ column: column, value: value });
+
+                if (!this.usesLocalData) {
+                    this.mapDataToRows();
+                }
+
+                this.saveState();
+            },
+
+            clearFilters() {
+
+                this.$slots.filters.map(filter => {
+                    if (filter.tag !== undefined) {
+                        const itemToRemove = this.filters.find(item => item['column'] == filter.componentInstance.column);
+                        this.filters.splice(this.filters.indexOf(itemToRemove), 1);
+
+                        filter.componentInstance.reset();
+                    }
+                });
+
+                if (!this.usesLocalData) {
+                    this.mapDataToRows();
+                }
 
                 this.saveState();
             },

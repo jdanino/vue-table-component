@@ -47,6 +47,11 @@
         },
 
         methods: {
+            
+            reset() {
+                this.value = '';
+            },
+
             filter() {
                 this.$parent.setFilter(this.column, this.value);
             },
