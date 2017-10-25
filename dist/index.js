@@ -2420,6 +2420,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     exports.default = {
         props: {
             column: {},
+            width: {},
             type: {
                 default: 'text'
             },
@@ -8396,7 +8397,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.clearFilters($event)
       }
     }
-  }, [_vm._t("clear-filter-link", [_vm._v("Clear filters")])], 2)]) : _vm._e()]), _vm._v(" "), (_vm.showFilter && _vm.filterableColumnExists) ? _c('div', {
+  }, [_vm._t("clear-filter-link", [_vm._v("Clear filter" + _vm._s(this.filters.length == 1 ? '' : 's') + " (" + _vm._s(this.filters.length) + ")")])], 2)]) : _vm._e()]), _vm._v(" "), (_vm.showFilter && _vm.filterableColumnExists) ? _c('div', {
     staticClass: "table-component__filter"
   }, [_c('input', {
     directives: [{
@@ -8515,7 +8516,11 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', [(_vm.type == 'select') ? _c('select', {
+  return _c('td', {
+    attrs: {
+      "width": _vm.width || ''
+    }
+  }, [(_vm.type == 'select') ? _c('select', {
     directives: [{
       name: "model",
       rawName: "v-model",

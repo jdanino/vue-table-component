@@ -11,7 +11,7 @@
 
             <div v-if="filters.length" class="clear-filters">
                 <a href @click.prevent="clearFilters" class="btn btn-default">
-                    <slot name="clear-filter-link">Clear filters</slot>
+                    <slot name="clear-filter-link">Clear filter{{ this.filters.length == 1 ? '' : 's' }} ({{ this.filters.length }})</slot>
                 </a>
             </div>
         </div>

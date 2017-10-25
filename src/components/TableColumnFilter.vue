@@ -1,5 +1,5 @@
 <template>
-    <td>
+    <td :width="width || ''">
         <select v-if="type == 'select'"
             @change="filter"
             v-model="value"
@@ -29,6 +29,7 @@
     export default {
         props: {
             column: {},
+            width: {},
             type: {
                 default: 'text',
             },
