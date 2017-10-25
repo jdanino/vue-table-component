@@ -2632,6 +2632,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     order: ''
                 },
                 pagination: null,
+                metadata: {},
 
                 localSettings: {}
             };
@@ -2885,10 +2886,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
                                     this.pagination = response.pagination;
+                                    this.metadata = response.metadata;
 
                                     return _context4.abrupt('return', response.data);
 
-                                case 6:
+                                case 7:
                                 case 'end':
                                     return _context4.stop();
                             }
@@ -8378,10 +8380,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "table-component"
   }, [_c('div', {
-    staticStyle: {
-      "display": "flex"
-    }
-  }, [_vm._m(0), _vm._v(" "), (_vm.filters.length) ? _c('div', {
+    staticClass: "metadata-and-filters"
+  }, [(_vm.pagination) ? _c('div', {
+    staticClass: "metadata"
+  }, [_c('p', [_vm._v("\n                Page " + _vm._s(_vm.pagination.currentPage) + " from " + _vm._s(_vm.pagination.totalPages) + " (" + _vm._s(_vm.metadata.totalRecords) + " records)\n            ")])]) : _vm._e(), _vm._v(" "), (_vm.filters.length) ? _c('div', {
     staticClass: "clear-filters"
   }, [_c('i', {
     staticClass: "fa fa-trash"
@@ -8472,13 +8474,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "pageChange": _vm.pageChange
     }
   }) : _vm._e()], 1)
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('div', {
-    staticStyle: {
-      "flex": "1"
-    }
-  }, [_c('p', [_vm._v("xxx van xxx Items")])])
-}]}
+},staticRenderFns: []}
 
 /***/ }),
 /* 235 */

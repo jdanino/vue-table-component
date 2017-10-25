@@ -31,6 +31,13 @@ new Vue({
                     currentPage : response.data.current_page,
                     totalPages  : response.data.last_page,
                 },
+                metadata: {
+                    to: response.data.to,
+                    from: response.data.from,
+                    totalRecords: response.data.total,
+                    recordsPerPage: response.data.per_page,
+                    
+                },
             };
         },
 

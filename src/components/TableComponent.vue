@@ -1,9 +1,12 @@
 <template>
     <div class="table-component">
         
-        <div style="display: flex">
-            <div style="flex: 1">
-            <p>xxx van xxx Items</p>
+        <div class="metadata-and-filters">
+
+            <div v-cloak v-if="pagination" class="metadata">
+                <p>
+                    Page {{ pagination.currentPage }} from {{ pagination.totalPages }} ({{ metadata.totalRecords }} records)
+                </p>
             </div>
 
             <div v-if="filters.length" class="clear-filters">
@@ -128,6 +131,7 @@
                 order: '',
             },
             pagination: null,
+            metadata: {},
 
             localSettings: {},
         }),
@@ -299,6 +303,7 @@
                 });
 
                 this.pagination = response.pagination;
+                this.metadata = response.metadata;
 
                 return response.data;
             },
