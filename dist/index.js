@@ -2420,7 +2420,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     exports.default = {
         props: {
             column: {},
-            width: {},
+            minWidth: {},
+            maxWidth: {},
             type: {
                 default: 'text'
             },
@@ -8517,9 +8518,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return _c('td', {
-    attrs: {
-      "width": _vm.width || ''
-    }
+    style: ({
+      minWidth: _vm.minWidth ? _vm.minWidth + 'px' : '',
+      maxWidth: _vm.maxWidth ? _vm.maxWidth + 'px' : ''
+    })
   }, [(_vm.type == 'select') ? _c('select', {
     directives: [{
       name: "model",

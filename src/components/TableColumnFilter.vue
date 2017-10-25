@@ -1,5 +1,5 @@
 <template>
-    <td :width="width || ''">
+    <td :style="{ minWidth: minWidth ? minWidth + 'px' : '', maxWidth: maxWidth ? maxWidth + 'px' : '' }">
         <select v-if="type == 'select'"
             @change="filter"
             v-model="value"
@@ -29,7 +29,8 @@
     export default {
         props: {
             column: {},
-            width: {},
+            minWidth: {},
+            maxWidth: {},
             type: {
                 default: 'text',
             },
