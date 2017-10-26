@@ -25,8 +25,5 @@
             },
         },
 
-        mounted() {
-            console.log('row ' + this.rowKey + 'mounted');
-        },
     };
 </script>
