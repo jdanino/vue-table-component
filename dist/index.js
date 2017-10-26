@@ -2947,9 +2947,14 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             },
             setFilter: function setFilter(column, value) {
 
-                // this.$set(this.filters, column, value);
-                // this.$set(this.filters, column, value);
-                this.filters.push({ column: column, value: value });
+                var index = this.filters.find(function (item) {
+                    return item['column'] == column;
+                });
+                if (index == undefined) {
+                    this.filters.push({ column: column, value: value });
+                } else {
+                    this.filters[this.filters.indexOf(index)].value = value;
+                }
 
                 if (!this.usesLocalData) {
                     this.mapDataToRows();
@@ -8333,10 +8338,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   return _c('div', {
     staticClass: "table-component"
   }, [_c('div', {
-    staticClass: "metadata-and-filters"
+    staticClass: "pagination-and-filters"
   }, [_c('div', {
-    staticClass: "metadata"
-  }, [(_vm.pagination) ? _c('div', {}, [_vm._v("\n                Page " + _vm._s(_vm.pagination.currentPage) + " from " + _vm._s(_vm.pagination.totalPages) + " \n                (" + _vm._s(_vm.metadata.totalRecords) + " records)\n            ")]) : _vm._e(), _vm._v(" "), (_vm.pagination) ? _c('pagination', {
+    staticClass: "pagination"
+  }, [(_vm.pagination) ? _c('pagination', {
     attrs: {
       "pagination": _vm.pagination,
       "type": "next-prev"
@@ -8344,7 +8349,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "pageChange": _vm.pageChange
     }
-  }) : _vm._e()], 1), _vm._v(" "), (_vm.filters.length) ? _c('div', {
+  }) : _vm._e(), _vm._v(" "), (_vm.pagination) ? _c('div', {
+    staticClass: "pagination-info"
+  }, [_c('div', [_vm._v("Page " + _vm._s(_vm.pagination.currentPage) + " out of " + _vm._s(_vm.pagination.totalPages))]), _vm._v(" "), _c('div', [_c('em', [_vm._v(_vm._s(_vm.metadata.totalRecords) + " total records")])])]) : _vm._e()], 1), _vm._v(" "), (_vm.filters.length) ? _c('div', {
     staticClass: "clear-filters"
   }, [_c('a', {
     staticClass: "btn btn-default",

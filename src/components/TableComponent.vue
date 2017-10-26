@@ -1,14 +1,14 @@
 <template>
     <div class="table-component">
         
-        <div class="metadata-and-filters">
+        <div class="pagination-and-filters">
             
-            <div class="metadata">
-                <div v-cloak v-if="pagination">
-                    Page {{ pagination.currentPage }} from {{ pagination.totalPages }} 
-                    ({{ metadata.totalRecords }} records)
-                </div>
+            <div class="pagination">
                 <pagination v-if="pagination" :pagination="pagination" type="next-prev" @pageChange="pageChange"></pagination>
+                <div v-cloak v-if="pagination" class="pagination-info">
+                    <div>Page {{ pagination.currentPage }} out of {{ pagination.totalPages }}</div>
+                    <div><em>{{ metadata.totalRecords }} total records</em></div>
+                </div>
             </div>
 
             <div v-if="filters.length" class="clear-filters">
@@ -355,9 +355,13 @@
 
             setFilter(column, value) {
                 
-                // this.$set(this.filters, column, value);
-                // this.$set(this.filters, column, value);
-                this.filters.push({ column: column, value: value });
+                const index = this.filters.find(item => item['column'] == column);          
+                if (index == undefined) {
+                    this.filters.push({ column: column, value: value });
+                } else {
+                    this.filters[this.filters.indexOf(index)].value = value;
+                }
+                
 
                 if (!this.usesLocalData) {
                     this.mapDataToRows();
