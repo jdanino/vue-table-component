@@ -198,10 +198,9 @@
             <a href="https://github.com/spatie/vue-table-component">Vue-table-component</a>
         </h1>
 
-            <a href="#" @click="deleteItem(2660)">Delete</a>
-
         <table-component
             :data="fetchData"
+            unique-row-key="id"
             sort-by="post_date"
             sort-order="desc"
             :show-filter="false"
@@ -222,6 +221,11 @@
                         {value: '5', label: 'Suzanne'},
                     ]"
                 ></table-column-filter>
+                <table-column-filter column="user_id"></table-column-filter>
+                <table-column-filter column="active"
+                    type="select"
+                    :options="[{label: '', value : ''},{label: 'Ja', value : 1},{label: 'Nee', value : 0}]"
+                ></table-column-filter>
                 <table-column-filter type="empty"></table-column-filter>
             </template>
 
@@ -231,6 +235,18 @@
                 <table-column show="title" label="Title"></table-column>
                 <table-column show="user.name" label="Poster" sort-by="user_id"></table-column>
                 <table-column show="views" label="Views"></table-column>
+                <table-column label="Active" :sortable="false" :filterable="false" >
+                    <template slot-scope="row">
+                        <div class="text-center">
+                            <active-toggle
+                                module="blog"
+                                :id="row.id"
+                                :data-active="row.active"
+                                :show-text="false"
+                            ></active-toggle>
+                        </div>
+                    </template>
+                </table-column>
             </template>
 
         </table-component>

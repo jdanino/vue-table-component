@@ -1,8 +1,6 @@
 import Vue from 'vue';
-import { TableColumn, TableComponent, TableColumnFilter } from '../src';
+import { TableColumn, TableComponent, TableColumnFilter, activeToggle } from '../src';
 import axios from 'axios';
-
-
 
 new Vue({
     el: '#app',
@@ -11,6 +9,7 @@ new Vue({
         TableColumn,
         TableComponent,
         TableColumnFilter,
+        activeToggle,
     },
 
     methods: {

@@ -59,7 +59,7 @@
                 <tbody :class="fullTableBodyClass">
                 <table-row
                         v-for="row in displayedRows"
-                        :key="row.vueTableComponentInternalRowId"
+                        :key="row.data.vueTableComponentInternalRowId"
                         :row="row"
                         :columns="columns"
                 ></table-row>
@@ -96,15 +96,22 @@
 
     import TableColumnFilter from './TableColumnFilter';
     
+    import activeToggle from './activeToggle';
+
     export default {
         components: {
             TableColumnHeader,
             TableRow,
             Pagination,
             TableColumnFilter,
+            
+            activeToggle,
         },
 
         props: {
+            uniqueRowKey: {
+                default: 'id',
+            },
             data: { default: () => [], type: [Array, Function] },
 
             showFilter: { default: true },
@@ -282,8 +289,7 @@
 
                 this.rows = data
                     .map(rowData => {
-                        console.log(rowData.id);
-                        rowData.vueTableComponentInternalRowId = rowData.id;
+                        rowData.vueTableComponentInternalRowId = rowData[this.uniqueRowKey];
                         return rowData;
                     })
                     .map(rowData => new Row(rowData, this.columns));

@@ -2,7 +2,7 @@
     <tr>
         <table-cell
             v-for="(column, index) in visibleColumns"
-            :key="column.index"
+            :key="row.vueTableComponentInternalRowId + '-' + column.index"
             :row="row"
             :column="column"
         ></table-cell>
@@ -23,6 +23,10 @@
             visibleColumns() {
                 return this.columns.filter(column => ! column.hidden);
             },
+        },
+
+        mounted() {
+            console.log('row ' + this.rowKey + 'mounted');
         },
     };
 </script>
