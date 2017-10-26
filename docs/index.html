@@ -198,13 +198,14 @@
             <a href="https://github.com/spatie/vue-table-component">Vue-table-component</a>
         </h1>
 
-            
+            <a href="#" @click="deleteItem(2660)">Delete</a>
 
         <table-component
             :data="fetchData"
             sort-by="post_date"
             sort-order="desc"
             :show-filter="false"
+            ref="table"
             >
 
             <!-- <template slot="clear-filter-link">Clear Filters</template> -->
@@ -221,7 +222,7 @@
                         {value: '5', label: 'Suzanne'},
                     ]"
                 ></table-column-filter>
-                <table-column-filter column="views" type=""></table-column-filter>
+                <table-column-filter type="empty"></table-column-filter>
             </template>
 
             <template>

@@ -41,5 +41,10 @@ new Vue({
             };
         },
 
+        deleteItem(id) {
+            console.log(this.$refs);
+            this.$refs.table.removeRow(id);
+        },
+
     },
 });
