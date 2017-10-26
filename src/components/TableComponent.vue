@@ -381,6 +381,8 @@
                     }
                 });
 
+                this.pagination.currentPage = 1;
+
                 if (!this.usesLocalData) {
                     this.mapDataToRows();
                 }
