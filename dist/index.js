@@ -2822,7 +2822,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
                                     this.rows = data.map(function (rowData) {
-                                        rowData.vueTableComponentInternalRowId = rowId++;
+                                        console.log(rowData.id);
+                                        rowData.vueTableComponentInternalRowId = rowData.id;
                                         return rowData;
                                     }).map(function (rowData) {
                                         return new _Row2.default(rowData, _this3.columns);

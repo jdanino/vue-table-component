@@ -278,11 +278,12 @@
                     ? this.prepareLocalData()
                     : await this.fetchServerData();
 
-                let rowId = 0;
+                const rowId = 0;
 
                 this.rows = data
                     .map(rowData => {
-                        rowData.vueTableComponentInternalRowId = rowId++;
+                        console.log(rowData.id);
+                        rowData.vueTableComponentInternalRowId = rowData.id;
                         return rowData;
                     })
                     .map(rowData => new Row(rowData, this.columns));
