@@ -2,29 +2,13 @@
     <div class="table-component">
         
         <div class="metadata-and-filters">
-
-            <div v-cloak v-if="pagination" class="metadata">
-                <p>
-                    Page {{ pagination.currentPage }} from {{ pagination.totalPages }} ({{ metadata.totalRecords }} records)
-                </p>
-            </div>
-
-            <div v-if="pagination">
-                <paginate
-                    name="pages"
-                    :list="pagination.pages"
-                    :per="50"
-                    class="paginate-list"
-                >
-                </paginate>
-                <paginate-links 
-                    for="pages" 
-                    @change="pageChange"
-                    :simple="{
-                        next: '»',
-                        prev: '«'
-                    }">
-                </paginate-links>
+            
+            <div class="metadata">
+                <div v-cloak v-if="pagination">
+                    Page {{ pagination.currentPage }} from {{ pagination.totalPages }} 
+                    ({{ metadata.totalRecords }} records)
+                </div>
+                <pagination v-if="pagination" :pagination="pagination" type="next-prev" @pageChange="pageChange"></pagination>
             </div>
 
             <div v-if="filters.length" class="clear-filters">
@@ -92,11 +76,13 @@
             <slot></slot>
         </div>
 
-        <pagination v-if="pagination" :pagination="pagination" @pageChange="pageChange"></pagination>
+        
     </div>
 </template>
 
 <script>
+
+
     import Column from '../classes/Column';
     import expiringStorage from '../expiring-storage';
     import Row from '../classes/Row';
@@ -108,7 +94,6 @@
     import Pagination from './Pagination';
     import { classList } from '../helpers';
 
-    import TableFilters from './TableFilters';
     import TableColumnFilter from './TableColumnFilter';
     
     export default {
@@ -116,9 +101,7 @@
             TableColumnHeader,
             TableRow,
             Pagination,
-            TableFilters,
             TableColumnFilter,
-            
         },
 
         props: {
@@ -151,7 +134,6 @@
                 order: '',
             },
             pagination: null,
-            paginate: ['pages'],
             metadata: {},
 
             localSettings: {},
@@ -325,11 +307,6 @@
 
                 this.metadata = response.metadata;
                 this.pagination = response.pagination;
-
-                this.pagination.pages = [];
-                for (let i = 1; i <= this.metadata.totalRecords; i++) {
-                    this.pagination.pages.push(i);
-                }
 
                 return response.data;
             },

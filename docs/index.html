@@ -125,52 +125,38 @@
             }
         }
         
-        .paginate-list ul, .paginate-links ul {
+    
+      .metadata-and-filters{
+        display: flex;
+      }
+        
+        .pagination-container{
+            margin-left: 20px;
+        }
+
+        .metadata{
+            display: flex;
+            flex: 1;
+        }
+
+      ul.pagination.next-prev, ul.pagination.next-prev li {
           list-style-type: none;
           padding: 0;
         }
 
-        .paginate-list, .paginate-links li {
+        ul.pagination.next-prev li {
           display: inline-block;
-          margin: 0 10px;
+          margin: 0 5px 0 0;
         }
 
-        .paginate-list {
-          width: 159px;
-          margin: 0 auto;
-          text-align: left;
-         
+        ul.pagination.next-prev li a{
+            cursor: pointer;
         }
 
-        .paginate-list  li {
-            display: block;
-          }
-
-          .paginate-list li:before {
-              content: '⚬ ';
-              font-weight: bold;
-              color: slategray;
-            }
-
-    .paginate-links {
-        user-select: none;
-    }
-    .paginate-links a {
-    cursor: pointer;
-}
-
-    .paginate-links  li.active a {
-        font-weight: bold;
-      }
-      
-      .paginate-links   li.disabled a {
-        color: #ccc;
-        cursor: no-drop;
-      }
-
-      .metadata-and-filters{
-        display: flex;
-      }
+        ul.pagination.next-prev li a.disabled{
+            cursor: default;
+            color: #999;
+        }
     </style>
 </head>
 <body>

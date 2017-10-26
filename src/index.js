@@ -1,4 +1,3 @@
-import TableFilters from './components/TableFilters';
 import TableColumnFilter from './components/TableColumnFilter';
 import TableComponent from './components/TableComponent';
 import TableColumn from './components/TableColumn';
@@ -10,7 +9,6 @@ export default {
         Vue.component('table-component', TableComponent);
         Vue.component('table-column', TableColumn);
         Vue.component('pagination', Pagination);
-        Vue.component('table-filters', TableFilters);
         Vue.component('table-column-filter', TableColumnFilter);
     },
 
@@ -19,4 +17,4 @@ export default {
     },
 };
 
-export { TableComponent, TableColumn, TableFilters, TableColumnFilter };
+export { TableComponent, TableColumn, TableColumnFilter };

@@ -1,9 +1,8 @@
 import Vue from 'vue';
-import { TableColumn, TableComponent, TableFilters, TableColumnFilter } from '../src';
+import { TableColumn, TableComponent, TableColumnFilter } from '../src';
 import axios from 'axios';
 
-import VuePaginate from 'vue-paginate';
-Vue.use(VuePaginate);
+
 
 new Vue({
     el: '#app',
@@ -11,13 +10,11 @@ new Vue({
     components: {
         TableColumn,
         TableComponent,
-        TableFilters,
         TableColumnFilter,
     },
 
     methods: {
         async fetchData({ page, filter, filters, sort }) {
-            console.log(JSON.stringify(filters));
             const data = {
                 orderBy   : sort.fieldName,
                 sortOrder : sort.order,
