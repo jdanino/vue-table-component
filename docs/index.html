@@ -124,6 +124,53 @@
                 top: -.725em;
             }
         }
+        
+        .paginate-list ul, .paginate-links ul {
+          list-style-type: none;
+          padding: 0;
+        }
+
+        .paginate-list, .paginate-links li {
+          display: inline-block;
+          margin: 0 10px;
+        }
+
+        .paginate-list {
+          width: 159px;
+          margin: 0 auto;
+          text-align: left;
+         
+        }
+
+        .paginate-list  li {
+            display: block;
+          }
+
+          .paginate-list li:before {
+              content: '⚬ ';
+              font-weight: bold;
+              color: slategray;
+            }
+
+    .paginate-links {
+        user-select: none;
+    }
+    .paginate-links a {
+    cursor: pointer;
+}
+
+    .paginate-links  li.active a {
+        font-weight: bold;
+      }
+      
+      .paginate-links   li.disabled a {
+        color: #ccc;
+        cursor: no-drop;
+      }
+
+      .metadata-and-filters{
+        display: flex;
+      }
     </style>
 </head>
 <body>

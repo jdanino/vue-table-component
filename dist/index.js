@@ -2599,6 +2599,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             Pagination: _Pagination2.default,
             TableFilters: _TableFilters2.default,
             TableColumnFilter: _TableColumnFilter2.default
+
         },
 
         props: {
@@ -2634,6 +2635,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     order: ''
                 },
                 pagination: null,
+                paginate: ['pages'],
                 metadata: {},
 
                 localSettings: {}
@@ -2869,7 +2871,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             },
             fetchServerData: function () {
                 var _ref4 = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee4() {
-                    var page, response;
+                    var page, response, i;
                     return _regenerator2.default.wrap(function _callee4$(_context4) {
                         while (1) {
                             switch (_context4.prev = _context4.next) {
@@ -2887,12 +2889,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                                     response = _context4.sent;
 
 
-                                    this.pagination = response.pagination;
                                     this.metadata = response.metadata;
+                                    this.pagination = response.pagination;
+
+                                    this.pagination.pages = [];
+                                    for (i = 1; i <= this.metadata.totalRecords; i++) {
+                                        this.pagination.pages.push(i);
+                                    }
 
                                     return _context4.abrupt('return', response.data);
 
-                                case 7:
+                                case 9:
                                 case 'end':
                                     return _context4.stop();
                             }
@@ -8385,7 +8392,25 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "metadata-and-filters"
   }, [(_vm.pagination) ? _c('div', {
     staticClass: "metadata"
-  }, [_c('p', [_vm._v("\n                Page " + _vm._s(_vm.pagination.currentPage) + " from " + _vm._s(_vm.pagination.totalPages) + " (" + _vm._s(_vm.metadata.totalRecords) + " records)\n            ")])]) : _vm._e(), _vm._v(" "), (_vm.filters.length) ? _c('div', {
+  }, [_c('p', [_vm._v("\n                Page " + _vm._s(_vm.pagination.currentPage) + " from " + _vm._s(_vm.pagination.totalPages) + " (" + _vm._s(_vm.metadata.totalRecords) + " records)\n            ")])]) : _vm._e(), _vm._v(" "), (_vm.pagination) ? _c('div', [_c('paginate', {
+    staticClass: "paginate-list",
+    attrs: {
+      "name": "pages",
+      "list": _vm.pagination.pages,
+      "per": 50
+    }
+  }), _vm._v(" "), _c('paginate-links', {
+    attrs: {
+      "for": "pages",
+      "simple": {
+        next: '»',
+        prev: '«'
+      }
+    },
+    on: {
+      "change": _vm.pageChange
+    }
+  })], 1) : _vm._e(), _vm._v(" "), (_vm.filters.length) ? _c('div', {
     staticClass: "clear-filters"
   }, [_c('a', {
     staticClass: "btn btn-default",

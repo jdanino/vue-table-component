@@ -9,6 +9,24 @@
                 </p>
             </div>
 
+            <div v-if="pagination">
+                <paginate
+                    name="pages"
+                    :list="pagination.pages"
+                    :per="50"
+                    class="paginate-list"
+                >
+                </paginate>
+                <paginate-links 
+                    for="pages" 
+                    @change="pageChange"
+                    :simple="{
+                        next: '»',
+                        prev: '«'
+                    }">
+                </paginate-links>
+            </div>
+
             <div v-if="filters.length" class="clear-filters">
                 <a href @click.prevent="clearFilters" class="btn btn-default">
                     <slot name="clear-filter-link">Clear filter{{ this.filters.length == 1 ? '' : 's' }} ({{ this.filters.length }})</slot>
@@ -92,7 +110,7 @@
 
     import TableFilters from './TableFilters';
     import TableColumnFilter from './TableColumnFilter';
-
+    
     export default {
         components: {
             TableColumnHeader,
@@ -100,6 +118,7 @@
             Pagination,
             TableFilters,
             TableColumnFilter,
+            
         },
 
         props: {
@@ -132,6 +151,7 @@
                 order: '',
             },
             pagination: null,
+            paginate: ['pages'],
             metadata: {},
 
             localSettings: {},
@@ -303,8 +323,13 @@
                     page: page,
                 });
 
-                this.pagination = response.pagination;
                 this.metadata = response.metadata;
+                this.pagination = response.pagination;
+
+                this.pagination.pages = [];
+                for (let i = 1; i <= this.metadata.totalRecords; i++) {
+                    this.pagination.pages.push(i);
+                }
 
                 return response.data;
             },

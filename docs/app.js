@@ -2,6 +2,9 @@ import Vue from 'vue';
 import { TableColumn, TableComponent, TableFilters, TableColumnFilter } from '../src';
 import axios from 'axios';
 
+import VuePaginate from 'vue-paginate';
+Vue.use(VuePaginate);
+
 new Vue({
     el: '#app',
 
