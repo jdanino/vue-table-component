@@ -344,7 +344,7 @@
             },
 
             saveState() {
-                expiringStorage.set(this.storageKey, pick(this.$data, ['filter', 'sort']), this.cacheLifetime);
+                expiringStorage.set(this.storageKey, pick(this.$data, ['filter', 'filters', 'sort']), this.cacheLifetime);
             },
 
             restoreState() {
@@ -356,6 +356,22 @@
 
                 this.sort = previousState.sort;
                 this.filter = previousState.filter;
+                
+                // Restore previous filters
+                previousState.filters.map(prevFilter => {
+                    this.filters.push({ column: prevFilter.column, value: prevFilter.value });
+                });
+
+                // Repopulate filter fields with previous state
+                setTimeout(() => {
+                    previousState.filters.map(prevFilter => {
+                        this.$slots.filters.map(filter => {
+                            if (filter.componentInstance !== undefined && filter.componentInstance.column == prevFilter.column) {
+                                filter.componentInstance.value = prevFilter.value;
+                            }
+                        });
+                    });
+                }, 100);
 
                 this.saveState();
             },
@@ -363,12 +379,17 @@
             setFilter(column, value) {
                 
                 const index = this.filters.find(item => item['column'] == column);          
-                if (index == undefined) {
-                    this.filters.push({ column: column, value: value });
+
+                // Leeg dus verwijder
+                if (value == '') {
+                    this.filters.splice(this.filters.indexOf(index), 1);
                 } else {
-                    this.filters[this.filters.indexOf(index)].value = value;
+                    if (index == undefined) {
+                        this.filters.push({ column: column, value: value });
+                    } else {
+                        this.filters[this.filters.indexOf(index)].value = value;
+                    }
                 }
-                
 
                 if (!this.usesLocalData) {
                     this.mapDataToRows();
@@ -396,15 +417,6 @@
 
                 this.saveState();
             },
-
-            removeRow(id) {
-                const itemToRemove = this.rows.find(item => item.data.id == id);
-                if (itemToRemove !== undefined) {
-                    this.rows.splice(this.rows.indexOf(itemToRemove), 1);
-                    this.metadata.totalRecords--;
-                }
-            },
-
         },
     };
 </script>

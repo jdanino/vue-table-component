@@ -2422,9 +2422,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     });
     exports.default = {
         props: {
+            dataInitValue: '',
             column: {},
             minWidth: {},
             maxWidth: {},
+            placeholder: {},
             type: {
                 default: 'text'
             },
@@ -2958,9 +2960,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 });
             },
             saveState: function saveState() {
-                _expiringStorage2.default.set(this.storageKey, (0, _pick2.default)(this.$data, ['filter', 'sort']), this.cacheLifetime);
+                _expiringStorage2.default.set(this.storageKey, (0, _pick2.default)(this.$data, ['filter', 'filters', 'sort']), this.cacheLifetime);
             },
             restoreState: function restoreState() {
+                var _this4 = this;
+
                 var previousState = _expiringStorage2.default.get(this.storageKey);
 
                 if (previousState === null) {
@@ -2970,6 +2974,22 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 this.sort = previousState.sort;
                 this.filter = previousState.filter;
 
+                // Restore previous filters
+                previousState.filters.map(function (prevFilter) {
+                    _this4.filters.push({ column: prevFilter.column, value: prevFilter.value });
+                });
+
+                // Repopulate filter fields with previous state
+                setTimeout(function () {
+                    previousState.filters.map(function (prevFilter) {
+                        _this4.$slots.filters.map(function (filter) {
+                            if (filter.componentInstance !== undefined && filter.componentInstance.column == prevFilter.column) {
+                                filter.componentInstance.value = prevFilter.value;
+                            }
+                        });
+                    });
+                }, 100);
+
                 this.saveState();
             },
             setFilter: function setFilter(column, value) {
@@ -2977,10 +2997,16 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 var index = this.filters.find(function (item) {
                     return item['column'] == column;
                 });
-                if (index == undefined) {
-                    this.filters.push({ column: column, value: value });
+
+                // Leeg dus verwijder
+                if (value == '') {
+                    this.filters.splice(this.filters.indexOf(index), 1);
                 } else {
-                    this.filters[this.filters.indexOf(index)].value = value;
+                    if (index == undefined) {
+                        this.filters.push({ column: column, value: value });
+                    } else {
+                        this.filters[this.filters.indexOf(index)].value = value;
+                    }
                 }
 
                 if (!this.usesLocalData) {
@@ -2990,14 +3016,14 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 this.saveState();
             },
             clearFilters: function clearFilters() {
-                var _this4 = this;
+                var _this5 = this;
 
                 this.$slots.filters.map(function (filter) {
                     if (filter.tag !== undefined) {
-                        var itemToRemove = _this4.filters.find(function (item) {
+                        var itemToRemove = _this5.filters.find(function (item) {
                             return item['column'] == filter.componentInstance.column;
                         });
-                        _this4.filters.splice(_this4.filters.indexOf(itemToRemove), 1);
+                        _this5.filters.splice(_this5.filters.indexOf(itemToRemove), 1);
 
                         filter.componentInstance.reset();
                     }
@@ -3010,15 +3036,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 }
 
                 this.saveState();
-            },
-            removeRow: function removeRow(id) {
-                var itemToRemove = this.rows.find(function (item) {
-                    return item.data.id == id;
-                });
-                if (itemToRemove !== undefined) {
-                    this.rows.splice(this.rows.indexOf(itemToRemove), 1);
-                    this.metadata.totalRecords--;
-                }
             }
         }
     };
@@ -8635,6 +8652,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       expression: "value"
     }],
     staticClass: "form-control",
+    attrs: {
+      "placeholder": _vm.placeholder || ''
+    },
     on: {
       "change": [function($event) {
         var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
@@ -8662,7 +8682,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "type": "date"
+      "type": "date",
+      "placeholder": _vm.placeholder || ''
     },
     domProps: {
       "value": (_vm.value)
@@ -8683,7 +8704,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }],
     staticClass: "form-control",
     attrs: {
-      "type": "text"
+      "type": "text",
+      "placeholder": _vm.placeholder || ''
     },
     domProps: {
       "value": (_vm.value)

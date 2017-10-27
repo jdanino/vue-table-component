@@ -4,6 +4,7 @@
             @change="filter"
             v-model="value"
             class="form-control"
+            :placeholder="placeholder || ''"
         >
             <option v-for="option in options" :key="option.value" :value="option.value">{{ option.label }}</option>
         </select>
@@ -13,6 +14,7 @@
             @change="filter"
             v-model="value"
             class="form-control"
+            :placeholder="placeholder || ''"
         >
 
         <input v-if="type == 'text'" 
@@ -20,6 +22,7 @@
             @change="filter"
             v-model="value"
             class="form-control"
+            :placeholder="placeholder || ''"
         >
     </td>
 </template>
@@ -28,9 +31,11 @@
 
     export default {
         props: {
+            dataInitValue: '',
             column: {},
             minWidth: {},
             maxWidth: {},
+            placeholder: {},
             type: {
                 default: 'text',
             },

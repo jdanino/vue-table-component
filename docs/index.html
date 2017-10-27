@@ -213,7 +213,7 @@
                 <table-column-filter column="id" min-width="80" max-width="120"></table-column-filter>
                 <table-column-filter column="post_date" type="date"></table-column-filter>
                 <table-column-filter column="title"></table-column-filter>
-                <table-column-filter column="user_id" 
+                <table-column-filter column="user_id|is" 
                     type="select" 
                     :options="[
                         {value: '', label: ''},
@@ -221,8 +221,8 @@
                         {value: '5', label: 'Suzanne'},
                     ]"
                 ></table-column-filter>
-                <table-column-filter column="user_id"></table-column-filter>
-                <table-column-filter column="active"
+                <table-column-filter column="views|greater" placeholder=">"></table-column-filter>
+                <table-column-filter column="active|is"
                     type="select"
                     :options="[{label: '', value : ''},{label: 'Ja', value : 1},{label: 'Nee', value : 0}]"
                 ></table-column-filter>
