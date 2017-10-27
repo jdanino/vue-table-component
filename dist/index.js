@@ -2498,7 +2498,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     return false;
                 }
 
-                if (this.column.show !== this.sort.fieldName) {
+                var sortField = this.column.sortBy || this.column.show;
+                if (sortField !== this.sort.fieldName) {
                     return 'none';
                 }
 
@@ -2509,7 +2510,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     return (0, _helpers.classList)('table-component__th', this.column.headerClass);
                 }
 
-                if (this.column.show !== this.sort.fieldName) {
+                var sortField = this.column.sortBy || this.column.show;
+                if (sortField !== this.sort.fieldName) {
                     return (0, _helpers.classList)('table-component__th table-component__th--sort', this.column.headerClass);
                 }
 
@@ -2649,12 +2651,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             };
         },
 
-        created: function created() {
-            this.sort.fieldName = this.sortBy;
-            this.sort.order = this.sortOrder;
-
-            this.restoreState();
-        },
+        created: function created() {},
         mounted: function () {
             var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
                 var _this = this;
@@ -2664,6 +2661,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     while (1) {
                         switch (_context.prev = _context.next) {
                             case 0:
+
+                                this.sort.fieldName = this.sortBy;
+                                this.sort.order = this.sortOrder;
+
+                                this.restoreState();
+
                                 columnComponents = this.$slots.default.filter(function (column) {
                                     return column.componentInstance;
                                 }).map(function (column) {
@@ -2685,10 +2688,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                                     });
                                 });
 
-                                _context.next = 5;
+                                _context.next = 8;
                                 return this.mapDataToRows();
 
-                            case 5:
+                            case 8:
                             case 'end':
                                 return _context.stop();
                         }
@@ -2974,22 +2977,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 this.sort = previousState.sort;
                 this.filter = previousState.filter;
 
-                // Restore previous filters
+                // Restore previous filters & repopulate
                 previousState.filters.map(function (prevFilter) {
                     _this4.filters.push({ column: prevFilter.column, value: prevFilter.value });
-                });
-
-                // Repopulate filter fields with previous state
-                setTimeout(function () {
-                    console.log('repopulate the fields');
-                    previousState.filters.map(function (prevFilter) {
-                        _this4.$slots.filters.map(function (filter) {
-                            if (filter.componentInstance !== undefined && filter.componentInstance.column == prevFilter.column) {
-                                filter.componentInstance.value = prevFilter.value;
-                            }
-                        });
+                    _this4.$slots.filters.map(function (filter) {
+                        if (filter.componentInstance !== undefined && filter.componentInstance.column == prevFilter.column) {
+                            filter.componentInstance.value = prevFilter.value;
+                        }
                     });
-                }, 100);
+                });
 
                 this.saveState();
             },
@@ -2999,8 +2995,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     return item['column'] == column;
                 });
 
-                // Leeg dus verwijder
-                if (value == '') {
+                if (value === '') {
                     this.filters.splice(this.filters.indexOf(index), 1);
                 } else {
                     if (index == undefined) {

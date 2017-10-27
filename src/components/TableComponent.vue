@@ -147,13 +147,15 @@
         }),
 
         created() {
+        },
+
+        async mounted() {
+
             this.sort.fieldName = this.sortBy;
             this.sort.order = this.sortOrder;
 
             this.restoreState();
-        },
 
-        async mounted() {
             const columnComponents = this.$slots.default
                 .filter(column => column.componentInstance)
                 .map(column => column.componentInstance);
@@ -357,22 +359,15 @@
                 this.sort = previousState.sort;
                 this.filter = previousState.filter;
                 
-                // Restore previous filters
+                // Restore previous filters & repopulate
                 previousState.filters.map(prevFilter => {
                     this.filters.push({ column: prevFilter.column, value: prevFilter.value });
-                });
-
-                // Repopulate filter fields with previous state
-                setTimeout(() => {
-                    console.log('repopulate the fields');
-                    previousState.filters.map(prevFilter => {
-                        this.$slots.filters.map(filter => {
-                            if (filter.componentInstance !== undefined && filter.componentInstance.column == prevFilter.column) {
-                                filter.componentInstance.value = prevFilter.value;
-                            }
-                        });
+                    this.$slots.filters.map(filter => {
+                        if (filter.componentInstance !== undefined && filter.componentInstance.column == prevFilter.column) {
+                            filter.componentInstance.value = prevFilter.value;
+                        }
                     });
-                }, 100);
+                });
 
                 this.saveState();
             },
@@ -381,8 +376,7 @@
                 
                 const index = this.filters.find(item => item['column'] == column);          
 
-                // Leeg dus verwijder
-                if (value == '') {
+                if (value === '') {
                     this.filters.splice(this.filters.indexOf(index), 1);
                 } else {
                     if (index == undefined) {

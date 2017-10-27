@@ -22,7 +22,7 @@ new Vue({
                 page      : page,
             };
 
-            const response = await axios.get('http://admin.rondreis.dev/api/blogs', { params: data });
+            const response = await axios.get('http://datatable-api-endpoint.dev/', { params: data });
 
             return {
                 data       : response.data.data,
@@ -41,7 +41,6 @@ new Vue({
         },
 
         deleteItem(id) {
-            console.log(this.$refs);
             this.$refs.table.removeRow(id);
         },
 

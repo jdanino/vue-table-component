@@ -31,8 +31,9 @@
                 if (! this.column.isSortable()) {
                     return false;
                 }
-
-                if (this.column.show !== this.sort.fieldName) {
+                
+                const sortField = this.column.sortBy || this.column.show;
+                if (sortField !== this.sort.fieldName) {
                     return 'none';
                 }
 
@@ -44,7 +45,8 @@
                     return classList('table-component__th', this.column.headerClass);
                 }
 
-                if (this.column.show !== this.sort.fieldName) {
+                const sortField = this.column.sortBy || this.column.show;
+                if (sortField !== this.sort.fieldName) {
                     return classList('table-component__th table-component__th--sort', this.column.headerClass);
                 }
 
