@@ -2422,7 +2422,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
     });
     exports.default = {
         props: {
-            dataInitValue: '',
             column: {},
             minWidth: {},
             maxWidth: {},
@@ -3208,7 +3207,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
         function Column(columnComponent) {
             (0, _classCallCheck3.default)(this, Column);
 
-            var properties = (0, _pick2.default)(columnComponent, ['show', 'label', 'dataType', 'sortable', 'sortBy', 'filterable', 'filterOn', 'hidden', 'formatter', 'cellClass', 'headerClass']);
+            var properties = (0, _pick2.default)(columnComponent, ['show', 'label', 'dataType', 'sortable', 'sortBy', 'filterable', 'filterOn', 'hidden', 'formatter', 'cellClass', 'headerClass', 'nowrap']);
 
             for (var property in properties) {
                 this[property] = columnComponent[property];

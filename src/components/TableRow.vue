@@ -23,6 +23,8 @@
             visibleColumns() {
                 return this.columns.filter(column => ! column.hidden);
             },
+
+            
         },
 
     };

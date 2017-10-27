@@ -15,7 +15,7 @@
             border-radius: 3px;
             box-shadow: 0 2px 20px rgba(0, 0, 0, .025);
             margin: 0 auto;
-            max-width: 66em;
+            max-width: 100%;
             padding: 4em 2em;
         }
 
@@ -210,9 +210,9 @@
             <!-- <template slot="clear-filter-link">Clear Filters</template> -->
 
             <template slot="filters">
-                <table-column-filter column="id" min-width="80" max-width="120"></table-column-filter>
+                <table-column-filter column="id"></table-column-filter>
                 <table-column-filter column="post_date" type="date"></table-column-filter>
-                <table-column-filter column="title"></table-column-filter>
+                <table-column-filter column="title" width="99%"></table-column-filter>
                 <table-column-filter column="user_id|is" 
                     type="select" 
                     :options="[
@@ -220,6 +220,7 @@
                         {value: '2', label: 'Laurens'},
                         {value: '5', label: 'Suzanne'},
                     ]"
+                    
                 ></table-column-filter>
                 <table-column-filter column="views|greater" placeholder=">"></table-column-filter>
                 <table-column-filter column="active|is"
@@ -231,8 +232,8 @@
             <template>
                 <table-column show="id" label="ID"></table-column>
                 <table-column show="post_date.date" label="Date" sort-by="post_date"></table-column>
-                <table-column show="title" label="Title"></table-column>
-                <table-column show="user.name" label="Poster" sort-by="user_id"></table-column>
+                <table-column show="title" label="Title" cell-class="fullwidth"></table-column>
+                <table-column show="user.name" label="Poster" sort-by="user_id" cell-class="nowrap"></table-column>
                 <table-column show="views" label="Views"></table-column>
                 <table-column label="Active" :sortable="false" :filterable="false" >
                     <template slot-scope="row">
@@ -243,6 +244,15 @@
                                 :data-active="row.active"
                                 :show-text="false"
                             ></active-toggle>
+                        </div>
+                    </template>
+                </table-column>
+                <table-column label="Options" :sortable="false" :filterable="false" header-class="text-center" cell-class="nowrap">
+                    <template slot-scope="row">
+                        <div class="table-options">
+                            <a>Show</a>
+                            <a>Edit</i></a>
+                            <a>Delete</a>
                         </div>
                     </template>
                 </table-column>

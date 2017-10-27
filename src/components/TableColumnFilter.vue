@@ -31,7 +31,6 @@
 
     export default {
         props: {
-            dataInitValue: '',
             column: {},
             minWidth: {},
             maxWidth: {},

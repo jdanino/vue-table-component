@@ -126,3 +126,10 @@
 input{
   width: 100%;
 }
+
+td.fullwidth{
+  width: 99%;
+}
+td.nowrap{
+  white-space: nowrap
+}
