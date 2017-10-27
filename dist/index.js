@@ -2981,6 +2981,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
                 // Repopulate filter fields with previous state
                 setTimeout(function () {
+                    console.log('repopulate the fields');
                     previousState.filters.map(function (prevFilter) {
                         _this4.$slots.filters.map(function (filter) {
                             if (filter.componentInstance !== undefined && filter.componentInstance.column == prevFilter.column) {

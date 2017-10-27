@@ -364,6 +364,7 @@
 
                 // Repopulate filter fields with previous state
                 setTimeout(() => {
+                    console.log('repopulate the fields');
                     previousState.filters.map(prevFilter => {
                         this.$slots.filters.map(filter => {
                             if (filter.componentInstance !== undefined && filter.componentInstance.column == prevFilter.column) {
