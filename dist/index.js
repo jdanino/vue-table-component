@@ -3031,6 +3031,15 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 }
 
                 this.saveState();
+            },
+            removeRow: function removeRow(id) {
+                var itemToRemove = this.rows.find(function (item) {
+                    return item.data.id == id;
+                });
+                if (itemToRemove !== undefined) {
+                    this.rows.splice(this.rows.indexOf(itemToRemove), 1);
+                    this.metadata.totalRecords--;
+                }
             }
         }
     };

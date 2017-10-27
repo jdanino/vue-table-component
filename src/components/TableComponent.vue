@@ -412,6 +412,14 @@
 
                 this.saveState();
             },
+
+            removeRow(id) {
+                const itemToRemove = this.rows.find(item => item.data.id == id);
+                if (itemToRemove !== undefined) {
+                    this.rows.splice(this.rows.indexOf(itemToRemove), 1);
+                    this.metadata.totalRecords--;
+                }
+            },
         },
     };
 </script>
