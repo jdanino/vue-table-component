@@ -1,5 +1,6 @@
 <template>
-    <td :style="{ minWidth: minWidth ? minWidth + 'px' : '', maxWidth: maxWidth ? maxWidth + 'px' : '' }">
+    <td v-if="!hidden" 
+        :style="{ minWidth: minWidth ? minWidth + 'px' : '', maxWidth: maxWidth ? maxWidth + 'px' : '' }">
         <select v-if="type == 'select'"
             @change="filter"
             v-model="value"
@@ -43,6 +44,7 @@
                     return [];
                 },
             },
+            hidden: { default: false, type: Boolean },
 
         },
 

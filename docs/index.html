@@ -206,6 +206,7 @@
             :show-filter="false"
             ref="table"
             >
+            <!-- :data-filters="[{column: 'user_id|is', value: '5'}]" -->
 
             <!-- <template slot="clear-filter-link">Clear Filters</template> -->
 
@@ -213,7 +214,7 @@
                 <table-column-filter column="id"></table-column-filter>
                 <table-column-filter column="post_date" type="date"></table-column-filter>
                 <table-column-filter column="title" width="99%"></table-column-filter>
-                <table-column-filter column="user_id|is" 
+                <table-column-filter column="user_id|is" :hidden="false"
                     type="select" 
                     :options="[
                         {value: '', label: ''},
@@ -233,7 +234,7 @@
                 <table-column show="id" label="ID"></table-column>
                 <table-column show="post_date.date" label="Date" sort-by="post_date"></table-column>
                 <table-column show="title" label="Title" cell-class="fullwidth"></table-column>
-                <table-column show="user.name" label="Poster" sort-by="user_id" cell-class="nowrap"></table-column>
+                <table-column show="user.name" label="Poster" sort-by="user_id" cell-class="nowrap" :hidden="false"></table-column>
                 <table-column show="views" label="Views"></table-column>
                 <table-column label="Active" :sortable="false" :filterable="false" >
                     <template slot-scope="row">

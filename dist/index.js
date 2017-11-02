@@ -2433,7 +2433,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 default: function _default() {
                     return [];
                 }
-            }
+            },
+            hidden: { default: false, type: Boolean }
 
         },
 
@@ -2612,6 +2613,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             uniqueRowKey: {
                 default: 'id'
             },
+            dataFilters: { default: function _default() {
+                    return [];
+                }, type: [Array] },
             data: { default: function _default() {
                     return [];
                 }, type: [Array, Function] },
@@ -2650,7 +2654,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             };
         },
 
-        created: function created() {},
         mounted: function () {
             var _ref = (0, _asyncToGenerator3.default)( /*#__PURE__*/_regenerator2.default.mark(function _callee() {
                 var _this = this;
@@ -2663,6 +2666,8 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
                                 this.sort.fieldName = this.sortBy;
                                 this.sort.order = this.sortOrder;
+
+                                this.setInitialFilters();
 
                                 this.restoreState();
 
@@ -2687,10 +2692,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                                     });
                                 });
 
-                                _context.next = 8;
+                                _context.next = 9;
                                 return this.mapDataToRows();
 
-                            case 8:
+                            case 9:
                             case 'end':
                                 return _context.stop();
                         }
@@ -2965,8 +2970,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 _expiringStorage2.default.set(this.storageKey, (0, _pick2.default)(this.$data, ['filter', 'filters', 'sort']), this.cacheLifetime);
             },
             restoreState: function restoreState() {
-                var _this4 = this;
-
                 var previousState = _expiringStorage2.default.get(this.storageKey);
 
                 if (previousState === null) {
@@ -2975,9 +2978,14 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
                 this.sort = previousState.sort;
                 this.filter = previousState.filter;
+                this.applyFilters(previousState.filters);
 
-                // Restore previous filters & repopulate
-                previousState.filters.map(function (prevFilter) {
+                this.saveState();
+            },
+            applyFilters: function applyFilters(filters) {
+                var _this4 = this;
+
+                filters.map(function (prevFilter) {
                     _this4.filters.push({ column: prevFilter.column, value: prevFilter.value });
                     _this4.$slots.filters.map(function (filter) {
                         if (filter.componentInstance !== undefined && filter.componentInstance.column == prevFilter.column) {
@@ -2985,8 +2993,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                         }
                     });
                 });
-
-                this.saveState();
             },
             setFilter: function setFilter(column, value) {
 
@@ -3031,6 +3037,11 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                 }
 
                 this.saveState();
+            },
+            setInitialFilters: function setInitialFilters() {
+                if (this.dataFilters == []) return;
+
+                this.applyFilters(this.dataFilters);
             },
             removeRow: function removeRow(id) {
                 var itemToRemove = this.rows.find(function (item) {
@@ -8643,7 +8654,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
 /***/ (function(module, exports) {
 
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('td', {
+  return (!_vm.hidden) ? _c('td', {
     style: ({
       minWidth: _vm.minWidth ? _vm.minWidth + 'px' : '',
       maxWidth: _vm.maxWidth ? _vm.maxWidth + 'px' : ''
@@ -8721,7 +8732,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.value = $event.target.value
       }
     }
-  }) : _vm._e()])
+  }) : _vm._e()]) : _vm._e()
 },staticRenderFns: []}
 
 /***/ }),

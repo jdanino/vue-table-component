@@ -20,6 +20,7 @@ new Vue({
                 filter    : filter,
                 filters    : filters,
                 page      : page,
+                // globalFilters: [{ column: 'user_id|is', value: '5' }],
             };
 
             const response = await axios.get('http://datatable-api-endpoint.dev/', { params: data });

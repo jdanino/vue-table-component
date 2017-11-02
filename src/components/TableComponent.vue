@@ -112,6 +112,7 @@
             uniqueRowKey: {
                 default: 'id',
             },
+            dataFilters: { default: () => [], type: [Array] },
             data: { default: () => [], type: [Array, Function] },
 
             showFilter: { default: true },
@@ -146,13 +147,12 @@
             localSettings: {},
         }),
 
-        created() {
-        },
-
         async mounted() {
 
             this.sort.fieldName = this.sortBy;
             this.sort.order = this.sortOrder;
+
+            this.setInitialFilters();
 
             this.restoreState();
 
@@ -358,9 +358,13 @@
 
                 this.sort = previousState.sort;
                 this.filter = previousState.filter;
-                
-                // Restore previous filters & repopulate
-                previousState.filters.map(prevFilter => {
+                this.applyFilters(previousState.filters);
+
+                this.saveState();
+            },
+
+            applyFilters(filters) {
+                filters.map(prevFilter => {
                     this.filters.push({ column: prevFilter.column, value: prevFilter.value });
                     this.$slots.filters.map(filter => {
                         if (filter.componentInstance !== undefined && filter.componentInstance.column == prevFilter.column) {
@@ -368,8 +372,6 @@
                         }
                     });
                 });
-
-                this.saveState();
             },
 
             setFilter(column, value) {
@@ -411,6 +413,13 @@
                 }
 
                 this.saveState();
+            },
+
+            setInitialFilters() {
+                if (this.dataFilters == [])
+                    return;
+
+                this.applyFilters(this.dataFilters);
             },
 
             removeRow(id) {
