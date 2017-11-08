@@ -406,8 +406,10 @@
                     }
                 });
 
-                this.pagination.currentPage = 1;
-
+                if (this.pagination) {
+                    this.pagination.currentPage = 1;
+                }
+                
                 if (!this.usesLocalData) {
                     this.mapDataToRows();
                 }
