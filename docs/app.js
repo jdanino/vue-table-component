@@ -37,7 +37,6 @@ new Vue({
                     from: response.data.from,
                     totalRecords: response.data.total,
                     recordsPerPage: response.data.per_page,
-                    
                 },
             };
         },

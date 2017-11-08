@@ -164,6 +164,7 @@
             this.sort.fieldName = this.sortBy;
             this.sort.order = this.sortOrder;
             this.numResults = this.dataNumResults;
+            console.log('zet numresults op ' + this.dataNumResults);
 
             this.setInitialFilters();
 

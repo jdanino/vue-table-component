@@ -2695,6 +2695,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                                 this.sort.fieldName = this.sortBy;
                                 this.sort.order = this.sortOrder;
                                 this.numResults = this.dataNumResults;
+                                console.log('zet numresults op ' + this.dataNumResults);
 
                                 this.setInitialFilters();
 
@@ -2721,10 +2722,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                                     });
                                 });
 
-                                _context.next = 10;
+                                _context.next = 11;
                                 return this.mapDataToRows();
 
-                            case 10:
+                            case 11:
                             case 'end':
                                 return _context.stop();
                         }
