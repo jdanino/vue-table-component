@@ -11,10 +11,14 @@
                     <div class="text">Page {{ formatNumber(pagination.currentPage) }} out of {{ formatNumber(pagination.totalPages) }}</div>
                 </div>
 
-                <input type="text" class="form-control short num-results" v-model="numResults">
+                <input type="text" class="form-control short num-results" v-model="numResults" @change="setNumResults">
 
                 <div class="pagination-info">
                     <div class="text">out of {{ formatNumber(metadata.totalRecords) }} total records</div>
+                </div>
+                    
+                <div v-if="this.loading">
+                    <i class="fa fa-spin fa-spinner"></i>Loading..
                 </div>
 
             </div>
@@ -144,6 +148,7 @@
         },
 
         data: () => ({
+            loading: false,
             columns: [],
             rows: [],
             filter: '',
@@ -192,13 +197,6 @@
         },
 
         watch: {
-
-            numResults() {
-                if (!this.usesLocalData) {
-                    this.pageChange(1);
-                    this.mapDataToRows();
-                }
-            },
 
             filter() {
                 if (!this.usesLocalData) {
@@ -328,6 +326,7 @@
 
             async fetchServerData() {
 
+                this.loading = true;
                 const page = this.pagination && this.pagination.currentPage || 1;
 
                 const response = await this.data({
@@ -341,6 +340,7 @@
                 this.metadata = response.metadata;
                 this.pagination = response.pagination;
 
+                this.loading = false;
                 return response.data;
             },
 
@@ -430,15 +430,23 @@
                     }
                 });
 
-                if (this.pagination) {
-                    this.pagination.currentPage = 1;
-                }
+                this.pageChange(1);
                 
                 if (!this.usesLocalData) {
                     this.mapDataToRows();
                 }
 
                 this.saveState();
+            },
+
+            setNumResults() {
+                if (!this.usesLocalData) {
+                    this.pageChange(1);
+                    
+                    if (!this.usesLocalData) {
+                        this.mapDataToRows();
+                    }
+                }
             },
 
             setInitialFilters() {

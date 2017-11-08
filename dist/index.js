@@ -2666,6 +2666,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
         data: function data() {
             return {
+                loading: false,
                 columns: [],
                 rows: [],
                 filter: '',
@@ -2742,12 +2743,6 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
         watch: {
-            numResults: function numResults() {
-                if (!this.usesLocalData) {
-                    this.pageChange(1);
-                    this.mapDataToRows();
-                }
-            },
             filter: function filter() {
                 if (!this.usesLocalData) {
                     this.mapDataToRows();
@@ -2928,8 +2923,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                         while (1) {
                             switch (_context4.prev = _context4.next) {
                                 case 0:
+
+                                    this.loading = true;
                                     page = this.pagination && this.pagination.currentPage || 1;
-                                    _context4.next = 3;
+                                    _context4.next = 4;
                                     return this.data({
                                         filter: this.filter,
                                         filters: this.filters,
@@ -2938,16 +2935,17 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                                         page: page
                                     });
 
-                                case 3:
+                                case 4:
                                     response = _context4.sent;
 
 
                                     this.metadata = response.metadata;
                                     this.pagination = response.pagination;
 
+                                    this.loading = false;
                                     return _context4.abrupt('return', response.data);
 
-                                case 7:
+                                case 9:
                                 case 'end':
                                     return _context4.stop();
                             }
@@ -3069,15 +3067,22 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     }
                 });
 
-                if (this.pagination) {
-                    this.pagination.currentPage = 1;
-                }
+                this.pageChange(1);
 
                 if (!this.usesLocalData) {
                     this.mapDataToRows();
                 }
 
                 this.saveState();
+            },
+            setNumResults: function setNumResults() {
+                if (!this.usesLocalData) {
+                    this.pageChange(1);
+
+                    if (!this.usesLocalData) {
+                        this.mapDataToRows();
+                    }
+                }
             },
             setInitialFilters: function setInitialFilters() {
                 if (this.dataFilters == []) return;
@@ -8624,6 +8629,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "value": (_vm.numResults)
     },
     on: {
+      "change": _vm.setNumResults,
       "input": function($event) {
         if ($event.target.composing) { return; }
         _vm.numResults = $event.target.value
@@ -8633,7 +8639,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "pagination-info"
   }, [_c('div', {
     staticClass: "text"
-  }, [_vm._v("out of " + _vm._s(_vm.formatNumber(_vm.metadata.totalRecords)) + " total records")])])], 1) : _vm._e(), _vm._v(" "), (_vm.filters.length) ? _c('div', {
+  }, [_vm._v("out of " + _vm._s(_vm.formatNumber(_vm.metadata.totalRecords)) + " total records")])]), _vm._v(" "), (this.loading) ? _c('div', [_c('i', {
+    staticClass: "fa fa-spin fa-spinner"
+  }), _vm._v("Loading..\n            ")]) : _vm._e()], 1) : _vm._e(), _vm._v(" "), (_vm.filters.length) ? _c('div', {
     staticClass: "clear-filters"
   }, [_c('a', {
     staticClass: "btn btn-default",
