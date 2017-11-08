@@ -169,7 +169,7 @@
             flex: 1;
         }
 
-        .pagination div.pagination-info div.text{
+        .pagination div.pagination-info, .pagination .loading{
             display: inline-block;
             margin: 10px 5px;
         }
@@ -223,6 +223,8 @@
             <!-- :data-filters="[{column: 'user_id|is', value: '5'}]" -->
 
             <!-- <template slot="clear-filter-link">Clear Filters</template> -->
+            
+            <template slot="loading">Busy loading..</template>
 
             <template slot="filters">
                 <table-column-filter column="id"></table-column-filter>

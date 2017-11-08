@@ -16,9 +16,9 @@
                 <div class="pagination-info">
                     <div class="text">out of {{ formatNumber(metadata.totalRecords) }} total records</div>
                 </div>
-                    
-                <div v-if="this.loading">
-                    <i class="fa fa-spin fa-spinner"></i>Loading..
+                
+                <div v-if="this.loading" class="loading">
+                    <slot name="loading">Loading..</slot>
                 </div>
 
             </div>

@@ -8639,9 +8639,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "pagination-info"
   }, [_c('div', {
     staticClass: "text"
-  }, [_vm._v("out of " + _vm._s(_vm.formatNumber(_vm.metadata.totalRecords)) + " total records")])]), _vm._v(" "), (this.loading) ? _c('div', [_c('i', {
-    staticClass: "fa fa-spin fa-spinner"
-  }), _vm._v("Loading..\n            ")]) : _vm._e()], 1) : _vm._e(), _vm._v(" "), (_vm.filters.length) ? _c('div', {
+  }, [_vm._v("out of " + _vm._s(_vm.formatNumber(_vm.metadata.totalRecords)) + " total records")])]), _vm._v(" "), (this.loading) ? _c('div', {
+    staticClass: "loading"
+  }, [_vm._t("loading", [_vm._v("Loading..")])], 2) : _vm._e()], 1) : _vm._e(), _vm._v(" "), (_vm.filters.length) ? _c('div', {
     staticClass: "clear-filters"
   }, [_c('a', {
     staticClass: "btn btn-default",
