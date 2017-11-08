@@ -126,9 +126,9 @@
         }
 
         .form-control {
-            display: block;
+            display: inline-block;
             width: 100%;
-            height: 34px;
+            height: 36px;
             padding: 6px 12px;
             font-size: 14px;
             line-height: 1.42857;
@@ -137,6 +137,11 @@
             background-image: none;
             border: 1px solid #c2cad8;
             border-radius: 0px;
+        }
+
+        .pagination .form-control{
+            width: 46px;
+            text-align: center;
         }
         
     
@@ -147,17 +152,26 @@
       .pagination-info{
       }
 
-        .pagination-info em{
+        /*.pagination-info em{
             color: #999;
             font-size: 90%;
-        }
+        }*/
         .pagination-container{
-            margin-right: 15px;
+            /*margin-right: 15px;*/
+        }
+
+        .num-results{
+            margin-left: 20px;
         }
 
         .pagination{
             display: flex;
             flex: 1;
+        }
+
+        .pagination div.pagination-info div.text{
+            display: inline-block;
+            margin: 10px 5px;
         }
 
       ul.pagination.next-prev, ul.pagination.next-prev li {

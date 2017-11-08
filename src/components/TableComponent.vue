@@ -3,12 +3,20 @@
         
         <div class="pagination-and-filters">
             
-            <div class="pagination">
-                <pagination v-if="pagination" :pagination="pagination" type="next-prev" @pageChange="pageChange"></pagination>
-                <div v-cloak v-if="pagination" class="pagination-info">
-                    <div>Page {{ pagination.currentPage }} out of {{ pagination.totalPages }}</div>
-                    <div><em>{{ metadata.totalRecords }} total records</em></div>
+            <div class="pagination" v-if="pagination" v-cloak>
+
+                <pagination  :pagination="pagination" type="next-prev" @pageChange="pageChange"></pagination>
+
+                <div class="pagination-info">
+                    <div class="text">Page {{ formatNumber(pagination.currentPage) }} out of {{ formatNumber(pagination.totalPages) }}</div>
                 </div>
+
+                <input type="text" class="form-control short num-results" v-model="numResults">
+
+                <div class="pagination-info">
+                    <div class="text">out of {{ formatNumber(metadata.totalRecords) }} total records</div>
+                </div>
+
             </div>
 
             <div v-if="filters.length" class="clear-filters">
@@ -112,6 +120,9 @@
             uniqueRowKey: {
                 default: 'id',
             },
+            dataNumResults: {
+                default: 50,
+            },
             dataFilters: { default: () => [], type: [Array] },
             data: { default: () => [], type: [Array, Function] },
 
@@ -141,6 +152,7 @@
                 fieldName: '',
                 order: '',
             },
+            numResults: 0,
             pagination: null,
             metadata: {},
 
@@ -151,6 +163,7 @@
 
             this.sort.fieldName = this.sortBy;
             this.sort.order = this.sortOrder;
+            this.numResults = this.dataNumResults;
 
             this.setInitialFilters();
 
@@ -178,6 +191,13 @@
         },
 
         watch: {
+
+            numResults() {
+                if (!this.usesLocalData) {
+                    this.pageChange(1);
+                    this.mapDataToRows();
+                }
+            },
 
             filter() {
                 if (!this.usesLocalData) {
@@ -277,8 +297,10 @@
         methods: {
 
             async pageChange(page) {
-                this.pagination.currentPage = page;
-
+                
+                if (this.pagination) {
+                    this.$set(this.pagination, 'currentPage', page);
+                }
                 await this.mapDataToRows();
             },
 
@@ -311,6 +333,7 @@
                     filter: this.filter,
                     filters: this.filters,
                     sort: this.sort,
+                    numResults: this.numResults,
                     page: page,
                 });
 
@@ -430,6 +453,13 @@
                     this.rows.splice(this.rows.indexOf(itemToRemove), 1);
                     this.metadata.totalRecords--;
                 }
+            },
+
+            formatNumber(number) {
+                return number.toLocaleString('nl-NL', {
+                    minimumFractionDigits : 0,
+                    maximumFractionDigits : 2,
+                });
             },
         },
     };

@@ -2301,6 +2301,20 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             type: {
                 default: 'items'
             }
+
+        },
+
+        data: function data() {
+            return {
+                currentPage: this.pagination.currentPage
+            };
+        },
+
+
+        watch: {
+            pagination: function pagination() {
+                this.currentPage = this.pagination.currentPage;
+            }
         },
 
         computed: {
@@ -2312,11 +2326,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     return false;
                 }
 
-                if (this.pagination.count === 0) {
-                    return false;
-                }
+                // if (this.pagination.count === 0) {
+                //     return false;
+                // }
 
-                return this.pagination.totalPages > 1;
+                // return this.pagination.totalPages > 1;
+                return true;
             }
         },
 
@@ -2326,11 +2341,20 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
                 return currentPage === page;
             },
-            pageClicked: function pageClicked(page) {
+            changePage: function changePage(page) {
                 if (this.pagination.currentPage === page) {
                     return;
                 }
 
+                if (page > this.pagination.totalPages) {
+                    page = this.pagination.totalPages;
+                }
+
+                if (page < 1) {
+                    page = 1;
+                }
+
+                this.currentPage = page;
                 this.$emit('pageChange', page);
             }
         }
@@ -2613,6 +2637,9 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
             uniqueRowKey: {
                 default: 'id'
             },
+            dataNumResults: {
+                default: 50
+            },
             dataFilters: { default: function _default() {
                     return [];
                 }, type: [Array] },
@@ -2647,6 +2674,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     fieldName: '',
                     order: ''
                 },
+                numResults: 0,
                 pagination: null,
                 metadata: {},
 
@@ -2666,6 +2694,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
                                 this.sort.fieldName = this.sortBy;
                                 this.sort.order = this.sortOrder;
+                                this.numResults = this.dataNumResults;
 
                                 this.setInitialFilters();
 
@@ -2692,10 +2721,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                                     });
                                 });
 
-                                _context.next = 9;
+                                _context.next = 10;
                                 return this.mapDataToRows();
 
-                            case 9:
+                            case 10:
                             case 'end':
                                 return _context.stop();
                         }
@@ -2712,6 +2741,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 
 
         watch: {
+            numResults: function numResults() {
+                if (!this.usesLocalData) {
+                    this.pageChange(1);
+                    this.mapDataToRows();
+                }
+            },
             filter: function filter() {
                 if (!this.usesLocalData) {
                     this.mapDataToRows();
@@ -2808,8 +2843,10 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                         while (1) {
                             switch (_context2.prev = _context2.next) {
                                 case 0:
-                                    this.pagination.currentPage = page;
 
+                                    if (this.pagination) {
+                                        this.$set(this.pagination, 'currentPage', page);
+                                    }
                                     _context2.next = 3;
                                     return this.mapDataToRows();
 
@@ -2896,6 +2933,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                                         filter: this.filter,
                                         filters: this.filters,
                                         sort: this.sort,
+                                        numResults: this.numResults,
                                         page: page
                                     });
 
@@ -3053,6 +3091,12 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
                     this.rows.splice(this.rows.indexOf(itemToRemove), 1);
                     this.metadata.totalRecords--;
                 }
+            },
+            formatNumber: function formatNumber(number) {
+                return number.toLocaleString('nl-NL', {
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 2
+                });
             }
         }
     };
@@ -8452,15 +8496,38 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
   }, [_c('li', [(_vm.pagination.currentPage > 1) ? _c('a', {
     on: {
       "click": function($event) {
-        _vm.pageClicked(_vm.pagination.currentPage - 1)
+        _vm.changePage(_vm.pagination.currentPage - 1)
       }
     }
   }, [_c('span', [_vm._v("«")])]) : _c('a', {
     staticClass: "disabled"
-  }, [_c('span', [_vm._v("«")])])]), _vm._v(" "), _c('li', [(_vm.pagination.currentPage < _vm.pagination.totalPages) ? _c('a', {
+  }, [_c('span', [_vm._v("«")])])]), _vm._v(" "), _c('li', [_c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.currentPage),
+      expression: "currentPage"
+    }],
+    staticClass: "form-control",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.currentPage)
+    },
+    on: {
+      "change": function($event) {
+        _vm.changePage(_vm.currentPage)
+      },
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.currentPage = $event.target.value
+      }
+    }
+  })]), _vm._v(" "), _c('li', [(_vm.pagination.currentPage < _vm.pagination.totalPages) ? _c('a', {
     on: {
       "click": function($event) {
-        _vm.pageClicked(_vm.pagination.currentPage + 1)
+        _vm.changePage(_vm.pagination.currentPage + 1)
       }
     }
   }, [_c('span', [_vm._v("»")])]) : _c('a', {
@@ -8477,7 +8544,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       staticClass: "page-link",
       on: {
         "click": function($event) {
-          _vm.pageClicked(page)
+          _vm.changePage(page)
         }
       }
     }, [_vm._v(_vm._s(page))])])
@@ -8527,9 +8594,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "table-component"
   }, [_c('div', {
     staticClass: "pagination-and-filters"
-  }, [_c('div', {
+  }, [(_vm.pagination) ? _c('div', {
     staticClass: "pagination"
-  }, [(_vm.pagination) ? _c('pagination', {
+  }, [_c('pagination', {
     attrs: {
       "pagination": _vm.pagination,
       "type": "next-prev"
@@ -8537,9 +8604,35 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     on: {
       "pageChange": _vm.pageChange
     }
-  }) : _vm._e(), _vm._v(" "), (_vm.pagination) ? _c('div', {
+  }), _vm._v(" "), _c('div', {
     staticClass: "pagination-info"
-  }, [_c('div', [_vm._v("Page " + _vm._s(_vm.pagination.currentPage) + " out of " + _vm._s(_vm.pagination.totalPages))]), _vm._v(" "), _c('div', [_c('em', [_vm._v(_vm._s(_vm.metadata.totalRecords) + " total records")])])]) : _vm._e()], 1), _vm._v(" "), (_vm.filters.length) ? _c('div', {
+  }, [_c('div', {
+    staticClass: "text"
+  }, [_vm._v("Page " + _vm._s(_vm.formatNumber(_vm.pagination.currentPage)) + " out of " + _vm._s(_vm.formatNumber(_vm.pagination.totalPages)))])]), _vm._v(" "), _c('input', {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: (_vm.numResults),
+      expression: "numResults"
+    }],
+    staticClass: "form-control short num-results",
+    attrs: {
+      "type": "text"
+    },
+    domProps: {
+      "value": (_vm.numResults)
+    },
+    on: {
+      "input": function($event) {
+        if ($event.target.composing) { return; }
+        _vm.numResults = $event.target.value
+      }
+    }
+  }), _vm._v(" "), _c('div', {
+    staticClass: "pagination-info"
+  }, [_c('div', {
+    staticClass: "text"
+  }, [_vm._v("out of " + _vm._s(_vm.formatNumber(_vm.metadata.totalRecords)) + " total records")])])], 1) : _vm._e(), _vm._v(" "), (_vm.filters.length) ? _c('div', {
     staticClass: "clear-filters"
   }, [_c('a', {
     staticClass: "btn btn-default",

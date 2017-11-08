@@ -13,13 +13,14 @@ new Vue({
     },
 
     methods: {
-        async fetchData({ page, filter, filters, sort }) {
+        async fetchData({ page, filter, filters, sort, numResults }) {
             const data = {
                 orderBy   : sort.fieldName,
                 sortOrder : sort.order,
                 filter    : filter,
                 filters    : filters,
                 page      : page,
+                numResults      : numResults,
                 // globalFilters: [{ column: 'user_id|is', value: '5' }],
             };
 
